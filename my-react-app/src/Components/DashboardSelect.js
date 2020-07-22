@@ -159,6 +159,14 @@ export default function Dashboard() {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
+            {/* Select Form */}
+            {/* <Grid item xs={12} md={8} lg={12}>
+              <Paper className={fixedHeightPaper}>
+                <SelectForm/>
+              </Paper>
+            </Grid> */}
+
+            {/* Recent Orders */}
             <Grid item xs={12}>
                 <MainTable/>
             </Grid>
