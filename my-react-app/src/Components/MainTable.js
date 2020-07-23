@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import {Paper, Select, MenuItem} from '@material-ui/core'
+import {
+   Paper, 
+   Select, 
+   MenuItem,
+   makeStyles,
+   InputLabel,
+   FormControl} from '@material-ui/core'
 import {
    SortingState,
    PagingState,
@@ -16,11 +22,22 @@ import {
 } from '@devexpress/dx-react-grid-material-ui';
 import { Loading } from './loading';
 
-   // const URL = 'https://js.devexpress.com/Demos/WidgetsGalleryDataService/api/orders?requireTotalCount=true';
-   const URL = 'http://localhost:5000/select';
+// const URL = 'https://js.devexpress.com/Demos/WidgetsGalleryDataService/api/orders?requireTotalCount=true';
+const URL = 'http://localhost:5000/select';
 
+const useStyles = makeStyles((theme) => ({
+   formControl: {
+     margin: theme.spacing(2),
+     marginLeft: theme.spacing(3),
+     minWidth: 315,
+   },
+   selectEmpty: {
+     marginTop: theme.spacing(2),
+   },
+ }));
 
 export default () => {
+   const classes = useStyles();
    // tablename states
    const [tablenames, setTablenames] = useState([])
    const [selectedTable, setSelectedTable] = useState('')
@@ -159,6 +176,14 @@ export default () => {
 
    return (
       <Paper>
+         <FormControl className={classes.formControl}>
+            <InputLabel id="select-label">Tablename</InputLabel>
+            <Select value={selectedTable} onChange={handleTableChange}>
+               {tablenames.map((tablename, index) =>
+                  <MenuItem key={index} value={tablename}>{tablename}</MenuItem>
+               )}
+            </Select>
+         </FormControl>
          <Grid
             rows={data.rows}
             columns={data.columns}
@@ -180,18 +205,13 @@ export default () => {
                totalCount={totalCount}
             />
             <VirtualTable
-               height={470}
+               height={440}
             />
             <TableColumnResizing
                columnWidths={columnWidths}
                onColumnWidthsChange={setColumnWidths}
             />
             <TableHeaderRow showSortingControls />
-            <Select value={selectedTable} onChange={handleTableChange}>
-               {tablenames.map((tablename, index) =>
-                  <MenuItem key={index} value={tablename}>{tablename}</MenuItem>
-               )}
-            </Select>
             <TableFilterRow />
             <PagingPanel
                pageSizes={pageSizes}
