@@ -13,10 +13,9 @@ import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import { mainListItems } from "./listItems";
-// import TerminalAccess from "./TerminalAccess"
-import Terminal from './ReactTerminal';
-import { Paper } from "@material-ui/core";
+import { mainListItems } from "../Components/listItems";
+// import InteractiveTable from './MUIDatatable'
+import MainTable from '../Components/MainTable';
 
 const drawerWidth = 240;
 
@@ -95,7 +94,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: "column"
   },
   fixedHeight: {
-    height: 240
+    height: 120
   }
 }));
 
@@ -136,7 +135,7 @@ export default function Dashboard() {
             noWrap
             className={classes.title}
           >
-            Script
+            Select
           </Typography>
         </Toolbar>
       </AppBar>
@@ -161,10 +160,7 @@ export default function Dashboard() {
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              <Paper>
-                {/* <TerminalAccess /> */}
-                <Terminal />
-              </Paper>
+                <MainTable/>
             </Grid>
           </Grid>
         </Container>

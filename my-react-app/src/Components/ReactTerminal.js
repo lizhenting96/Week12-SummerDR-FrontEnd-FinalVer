@@ -1,9 +1,12 @@
 import React from 'react';
 import { ReactTerminal, ReactThemes } from 'react-terminal-component';
 import {
-   EmulatorState, OutputFactory, CommandMapping,
-   EnvironmentVariables, FileSystem, History,
-   Outputs, defaultCommandMapping
+   EmulatorState, 
+   OutputFactory, 
+   CommandMapping, 
+   FileSystem,
+   Outputs, 
+   defaultCommandMapping
  } from 'javascript-terminal';
 
 export default function Terminal() {
