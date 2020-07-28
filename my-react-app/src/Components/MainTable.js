@@ -50,7 +50,7 @@ export default () => {
    // paging states
    const [totalCount, setTotalCount] = useState(0);
    const [pageSize, setPageSize] = useState(5);
-   const [pageSizes] = useState([5, 10, 15, 0]);
+   const [pageSizes] = useState([5, 10, 15]);
    const [currentPage, setCurrentPage] = useState(0);
    // resizing states
    const [columnWidths, setColumnWidths] = useState([
