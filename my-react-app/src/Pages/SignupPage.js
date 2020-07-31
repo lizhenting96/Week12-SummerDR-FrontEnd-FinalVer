@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -8,7 +8,6 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -43,12 +42,19 @@ const CssTextField = withStyles({
         borderColor: '#900',
       },
     },
+    '& p.MuiFormHelperText-root': {
+      color: '#900',
+      marginTop: 0,
+      marginBottom: '5px',
+      marginLeft: '14px',
+      marginRight: '14px',
+    },
   },
 })(TextField);
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(4),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -64,11 +70,11 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(3),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    margin: theme.spacing(2, 0, 2),
     backgroundColor: "#900",
     "&:hover": {
-       backgroundColor: "#B00",
-     }
+      backgroundColor: "#B00",
+    }
   },
   link: {
     color: "#900"
@@ -78,6 +84,128 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUp() {
   const classes = useStyles();
 
+  // states
+  const [fName, setFName] = useState({inputVal: '', hasErr: false, errMsg: ''})
+  const [lName, setLName] = useState({inputVal: '', hasErr: false, errMsg: ''})
+  const [email, setEmail] = useState({inputVal: '', hasErr: false, errMsg: ''})
+  const [password, setPassword] = useState({inputVal: '', hasErr: false, errMsg: ''})
+  const [repassword, setRePassword] = useState({inputVal: '', hasErr: false, errMsg: ''})
+
+  // handle states changes & form validation
+  const handleFNameChange = (e) => {
+    const {value} = e.target;
+    setFName((prevState) => ({
+      ...prevState,
+      inputVal: value,
+    }))
+    if (value === '') {
+      setFName((prevState) => ({
+        ...prevState,
+        hasErr: true,
+        errMsg: 'Required'
+      }))
+    }
+  }
+  const handleLNameChange = (e) => {
+    const {value} = e.target;
+    setLName((prevState) => ({
+      ...prevState,
+      inputVal: value,
+    }))
+    if (value === '') {
+      setLName((prevState) => ({
+        ...prevState,
+        hasErr: true,
+        errMsg: 'Required'
+      }))
+    }
+  }
+  const handleEmailChange = (e) => {
+    const {value} = e.target;
+    setEmail((prevState) => ({
+      ...prevState,
+      inputVal: value,
+    }))
+    if (value === '') {
+      setEmail((prevState) => ({
+        ...prevState,
+        hasErr: true,
+        errMsg: 'Required'
+      }))
+    }
+    else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
+      setEmail((prevState) => ({
+        ...prevState,
+        hasErr: true,
+        errMsg: 'Invalid Email'
+      }))
+    }
+    else {
+      setEmail((prevState) => ({
+        ...prevState,
+        hasErr: false,
+        errMsg: ''
+      }))
+    }
+  }
+  const handlePasswordChange = (e) => {
+    const {value} = e.target;
+    setPassword((prevState) => ({
+      ...prevState,
+      inputVal: value,
+    }))
+    if (value === '') {
+      setPassword((prevState) => ({
+        ...prevState,
+        hasErr: true,
+        errMsg: 'Required'
+      }))
+    }
+    else if (value !== repassword.inputVal) {
+      setRePassword((prevState) => ({
+        ...prevState,
+        hasErr: true,
+        errMsg: 'Password not match'
+      }))
+    }
+    else {
+      setRePassword((prevState) => ({
+        ...prevState,
+        hasErr: false,
+        errMsg: ''
+      }))
+    }
+  }
+  const handleRePasswordChange = (e) => {
+    const {value} = e.target;
+    setRePassword((prevState) => ({
+      ...prevState,
+      inputVal: value,
+    }))
+    if (value === '') {
+      setRePassword((prevState) => ({
+        ...prevState,
+        hasErr: true,
+        errMsg: 'Required'
+      }))
+    }
+    else if (value !== password.inputVal) {
+      setRePassword((prevState) => ({
+        ...prevState,
+        hasErr: true,
+        errMsg: 'Password not match'
+      }))
+    }
+    else {
+      setRePassword((prevState) => ({
+        ...prevState,
+        hasErr: false,
+        errMsg: ''
+      }))
+    }
+  }
+
+  // compare two password on submit
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -86,30 +214,38 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <CssTextField
-                autoComplete="fname"
-                name="firstName"
-                variant="outlined"
-                required
-                fullWidth
-                id="firstName"
-                label="First Name"
-                autoFocus
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <CssTextField
-                variant="outlined"
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="lname"
-              />
+        <form className={classes.form}>
+          <Grid container spacing={0}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <CssTextField
+                  autoComplete="fname"
+                  name="firstName"
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="firstName"
+                  label="First Name"
+                  autoFocus
+                  value={fName.inputVal}
+                  helperText={fName.hasErr ? fName.errMsg : " "}
+                  onChange={handleFNameChange}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <CssTextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="lastName"
+                  label="Last Name"
+                  name="lastName"
+                  autoComplete="lname"
+                  value={lName.inputVal}
+                  helperText={lName.hasErr ? lName.errMsg : " "}
+                  onChange={handleLNameChange}
+                />
+              </Grid>
             </Grid>
             <Grid item xs={12}>
               <CssTextField
@@ -120,6 +256,9 @@ export default function SignUp() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                value={email.inputVal}
+                helperText={email.hasErr ? email.errMsg : " "}
+                onChange={handleEmailChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -132,12 +271,30 @@ export default function SignUp() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                value={password.inputVal}
+                helperText={password.hasErr ? password.errMsg : " "}
+                onChange={handlePasswordChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <CssTextField
+                variant="outlined"
+                required
+                fullWidth
+                name="re-enter-password"
+                label="Re-enter Password"
+                type="password"
+                id="re-enter-password"
+                autoComplete="re-enter-password"
+                value={repassword.inputVal}
+                helperText={repassword.hasErr ? repassword.errMsg : " "}
+                onChange={handleRePasswordChange}
               />
             </Grid>
             <Grid item xs={12}>
               <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" style={{color: "#900"}} />}
-                label="I want to receive inspiration, marketing promotions and updates via email."
+                control={<Checkbox value="allowExtraEmails" style={{ color: "#900" }} />}
+                label={<Typography style={{ color: "#900", fontSize: "0.8rem" }}>I want to receive inspiration, marketing promotions and updates via email.</Typography>}
               />
             </Grid>
           </Grid>
@@ -159,7 +316,7 @@ export default function SignUp() {
           </Grid>
         </form>
       </div>
-      <Box mt={5}>
+      <Box mt={2}>
         <Copyright />
       </Box>
     </Container>

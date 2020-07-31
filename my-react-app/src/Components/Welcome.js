@@ -29,8 +29,8 @@ const useStyles = makeStyles((theme) => ({
       padding: theme.spacing(0, 0, 6),
    },
    cardHeader: {
-      backgroundColor:
-         theme.palette.type === 'light' ? theme.palette.grey[200] : theme.palette.grey[700],
+      backgroundColor: "#900",
+      color: "white",
    },
    cardButton: {
       backgroundColor: "#900",
@@ -81,7 +81,6 @@ export default function Pricing() {
          <Container maxWidth="md" component="main">
             <Grid container spacing={3}>
                {tiers.map((tier) => (
-                  // Enterprise card is full width at sm breakpoint
                   <Grid item key={tier.title} xs={12} sm={12} md={12}>
                      <Card className={classes.card}>
                         <CardHeader

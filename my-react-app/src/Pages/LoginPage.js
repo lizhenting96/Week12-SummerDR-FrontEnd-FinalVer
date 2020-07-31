@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -8,7 +8,6 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -24,6 +23,7 @@ function Copyright() {
   );
 }
 
+// override Material-UI TextFiled
 const CssTextField = withStyles({
   root: {
     '& label.Mui-focused': {
@@ -43,12 +43,19 @@ const CssTextField = withStyles({
         borderColor: '#900',
       },
     },
+    '& p.MuiFormHelperText-root': {
+      color: '#900',
+      marginTop: 0,
+      marginBottom: '5px',
+      marginLeft: '14px',
+      marginRight: '14px',
+    },
   },
 })(TextField);
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(4),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -64,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    margin: theme.spacing(2, 0, 2),
     backgroundColor: "#900",
     "&:hover": {
       backgroundColor: "#B00",
@@ -78,6 +85,53 @@ const useStyles = makeStyles((theme) => ({
 export default function SignIn() {
   const classes = useStyles();
 
+  // states
+  const [email, setEmail] = useState({inputVal: '', hasErr: false, errMsg: ''})
+  const [password, setPassword] = useState({inputVal:'', hasErr: false, errMsg: ''})
+
+  // handle states changes & form validation
+  const handleEmailChange = (event) => {
+    const {value} = event.target;
+    setEmail((prevState) => ({
+      ...prevState,
+      inputVal: value,
+    }))
+    if (value === '') {
+      setEmail((prevState) => ({
+        ...prevState,
+        hasErr: true,
+        errMsg: 'Required'
+      }))
+    }
+    else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
+      setEmail((prevState) => ({
+        ...prevState,
+        hasErr: true,
+        errMsg: 'Invalid Email'
+      }))
+    }
+    else {
+      setEmail((prevState) => ({
+        ...prevState,
+        hasErr: false,
+        errMsg: ''
+      }))
+    }
+  }
+  const handlePasswordChange = (event) => {
+    const {value} = event.target;
+    setPassword((prevState) => ({
+      ...prevState,
+      inputVal: value,
+    }))
+    if (value ==='') {
+      setPassword((prevState) => ({
+        ...prevState,
+        hasErr: true,
+        errMsg: 'Required',
+      }))
+    }
+  }
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -86,33 +140,44 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Log in
         </Typography>
-        <form className={classes.form} noValidate>
-          <CssTextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            style={{ borderColor: "#900" }}
-          />
-          <CssTextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          />
+        <form className={classes.form}>
+          <Grid container spacing={0}>
+            <Grid item xs={12} sm={12}>
+              <CssTextField
+                variant="outlined"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                value={email.inputVal}
+                name="email"
+                autoComplete="email"
+                autoFocus
+                helperText={email.hasErr ? email.errMsg : " "}
+                onChange={handleEmailChange}
+              />
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <CssTextField
+                variant="outlined"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                value={password.inputVal}
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                helperText={password.hasErr ? password.errMsg : " "}
+                onChange={handlePasswordChange}
+              />
+            </Grid>
+
+          </Grid>
+
           <FormControlLabel
             control={<Checkbox value="remember" style={{ color: "#900" }} />}
-            label="Remember me"
+            label={<Typography style={{ color: "#900", fontSize: "0.8rem" }}>Remember me</Typography>}
           />
           <Button
             type="submit"

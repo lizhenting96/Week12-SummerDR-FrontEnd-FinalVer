@@ -21,6 +21,8 @@ import MainTable from '../Components/MainTable';
 import Terminal from '../Components/ReactTerminal';
 import Welcome from '../Components/Welcome';
 import Paper from '@material-ui/core/Paper';
+import { Avatar } from "@material-ui/core";
+import iconPic from "../Static/logo.jpg"
 
 // style
 const drawerWidth = 240;
@@ -76,7 +78,8 @@ const useStyles = makeStyles(theme => ({
       display: "none"
    },
    title: {
-      flexGrow: 1
+      flexGrow: 1,
+      paddingLeft: theme.spacing(2.5),
    },
    drawerPaper: {
       position: "relative",
@@ -123,7 +126,7 @@ const useStyles = makeStyles(theme => ({
 const HomeHeader = () => (
    <Typography
       component="h1"
-      variant="h6"
+      variant="h4"
       color="inherit"
       noWrap
       className={useStyles().title}
@@ -189,6 +192,7 @@ export default function MainPage() {
                   >
                      <MenuIcon />
                   </IconButton>
+                  <Avatar src={iconPic} className={classes.avatar} />
                   <Switch>
                      <Route exact path='/' component={HomeHeader} />
                      <Route exact path='/table' component={TableHeader} />
