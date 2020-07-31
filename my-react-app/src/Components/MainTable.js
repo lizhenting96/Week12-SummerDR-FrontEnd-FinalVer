@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {
-   Paper, 
    Select, 
    MenuItem,
    makeStyles,
@@ -21,6 +20,7 @@ import {
    TableColumnResizing,
 } from '@devexpress/dx-react-grid-material-ui';
 import { Loading } from './loading';
+import { Fragment } from 'react';
 
 // const URL = 'https://js.devexpress.com/Demos/WidgetsGalleryDataService/api/orders?requireTotalCount=true';
 const URL = 'http://localhost:5000/select';
@@ -175,7 +175,7 @@ export default () => {
    }, []);
 
    return (
-      <Paper>
+      <Fragment>
          <FormControl className={classes.formControl}>
             <InputLabel id="select-label">Tablename</InputLabel>
             <Select value={selectedTable} onChange={handleTableChange}>
@@ -218,6 +218,6 @@ export default () => {
             />
          </Grid>
          {loading && <Loading />}
-      </Paper>
+      </Fragment>
    );
 };

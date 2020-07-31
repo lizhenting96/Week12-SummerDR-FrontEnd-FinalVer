@@ -10,21 +10,41 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import iconPic from "../Static/logo.jpg"
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
       <Link color="inherit" href="/">
-        SummerDR
+        Return to Home Page
       </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
     </Typography>
   );
 }
+
+const CssTextField = withStyles({
+  root: {
+    '& label.Mui-focused': {
+      color: '#900',
+    },
+    '& label': {
+      color: '#900',
+    },
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: '#900',
+      },
+      '&:hover fieldset': {
+        borderColor: '#900',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: '#900',
+      },
+    },
+  },
+})(TextField);
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -36,6 +56,8 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
+    width: theme.spacing(12),
+    height: theme.spacing(12),
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -43,6 +65,13 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    backgroundColor: "#900",
+    "&:hover": {
+      backgroundColor: "#B00",
+    }
+  },
+  link: {
+    color: "#900",
   },
 }));
 
@@ -53,14 +82,12 @@ export default function SignIn() {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
+        <Avatar src={iconPic} className={classes.avatar} />
         <Typography component="h1" variant="h5">
           Log in
         </Typography>
         <form className={classes.form} noValidate>
-          <TextField
+          <CssTextField
             variant="outlined"
             margin="normal"
             required
@@ -70,8 +97,9 @@ export default function SignIn() {
             name="email"
             autoComplete="email"
             autoFocus
+            style={{ borderColor: "#900" }}
           />
-          <TextField
+          <CssTextField
             variant="outlined"
             margin="normal"
             required
@@ -83,7 +111,7 @@ export default function SignIn() {
             autoComplete="current-password"
           />
           <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
+            control={<Checkbox value="remember" style={{ color: "#900" }} />}
             label="Remember me"
           />
           <Button
@@ -97,12 +125,12 @@ export default function SignIn() {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
+              <Link className={classes.link} href="#" variant="body2">
                 Forgot password?
               </Link>
             </Grid>
             <Grid item>
-              <Link href="/users/signup" variant="body2">
+              <Link className={classes.link} href="/users/signup" variant="body2" >
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>

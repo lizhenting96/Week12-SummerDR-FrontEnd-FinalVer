@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Terminal from 'react-bash';
+import { Paper } from '@material-ui/core';
 
 export default function TerminalAccess() {
     const [commandData, setCommandData] = useState('');

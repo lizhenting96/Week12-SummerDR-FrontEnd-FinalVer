@@ -19,6 +19,8 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import { mainListItems } from "../Components/listItems";
 import MainTable from '../Components/MainTable';
 import Terminal from '../Components/ReactTerminal';
+import Welcome from '../Components/Welcome';
+import Paper from '@material-ui/core/Paper';
 
 // style
 const drawerWidth = 240;
@@ -41,7 +43,8 @@ const useStyles = makeStyles(theme => ({
       transition: theme.transitions.create(["width", "margin"], {
          easing: theme.transitions.easing.sharp,
          duration: theme.transitions.duration.leavingScreen
-      })
+      }),
+      backgroundColor: "#900",
    },
    appBarShift: {
       marginLeft: drawerWidth,
@@ -55,7 +58,7 @@ const useStyles = makeStyles(theme => ({
       marginRight: 36
    },
    loginButton: {
-      backgroundColor: "#3f51b5",
+      backgroundColor: "#900",
       color: "white",
       fontSize: "1rem",
       fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
@@ -66,7 +69,7 @@ const useStyles = makeStyles(theme => ({
       textTransform: "none",
       '&:hover': {
          backgroundColor: "white",
-         color: "#3f51b5",
+         color: "#900",
       }
    },
    menuButtonHidden: {
@@ -129,7 +132,7 @@ const HomeHeader = () => (
    </Typography>
 )
 
-const SelectHeader = () => (
+const TableHeader = () => (
    <Typography
       component="h1"
       variant="h6"
@@ -137,11 +140,11 @@ const SelectHeader = () => (
       noWrap
       className={useStyles().title}
    >
-      Select
+      Table
    </Typography>
 )
 
-const ScriptHeader = () => (
+const TerminalHeader = () => (
    <Typography
       component="h1"
       variant="h6"
@@ -149,7 +152,7 @@ const ScriptHeader = () => (
       noWrap
       className={useStyles().title}
    >
-      Script
+      Terminal
    </Typography>
 )
 
@@ -188,8 +191,8 @@ export default function MainPage() {
                   </IconButton>
                   <Switch>
                      <Route exact path='/' component={HomeHeader} />
-                     <Route exact path='/select' component={SelectHeader} />
-                     <Route exact path='/script' component={ScriptHeader} />
+                     <Route exact path='/table' component={TableHeader} />
+                     <Route exact path='/terminal' component={TerminalHeader} />
                   </Switch>
                   <Button className={classes.loginButton} href='/users/login'>Log In</Button>
                   <Button className={classes.loginButton} href='/users/signup'>Sign up</Button>
@@ -216,10 +219,12 @@ export default function MainPage() {
                <Container maxWidth="lg" className={classes.container}>
                   <Grid container spacing={3}>
                      <Grid item xs={12}>
-                        {/* <MainTable /> */}
                         <Switch>
-                           <Route exact path='/select' component={MainTable} />
-                           <Route exact path='/script' component={Terminal} />
+                           <Route exact path='/' component={Welcome} />
+                           <Paper>
+                              <Route exact path='/table' component={MainTable} />
+                              <Route exact path='/terminal' component={Terminal} />
+                           </Paper>
                         </Switch>
                      </Grid>
                   </Grid>
